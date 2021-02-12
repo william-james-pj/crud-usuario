@@ -1,7 +1,11 @@
 <template>
     <div id="bar-left-container">
-        <font-awesome-icon id="icon" icon="home" size="2x" />
-        <font-awesome-icon id="icon" icon="users-cog" size="2x" />
+        <router-link to="/"
+            ><font-awesome-icon id="icon" icon="home" size="2x"
+        /></router-link>
+        <router-link to="/Users"
+            ><font-awesome-icon id="icon" icon="users-cog" size="2x"
+        /></router-link>
     </div>
 </template>
 

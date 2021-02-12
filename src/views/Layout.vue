@@ -1,6 +1,8 @@
 <template>
     <div id="layout-container">
-        <div class="context-layout"></div>
+        <div class="context-layout">
+            <router-view></router-view>
+        </div>
         <div class="bar-left-layout">
             <BarLeft />
         </div>
