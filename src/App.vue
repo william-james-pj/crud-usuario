@@ -29,7 +29,10 @@ body {
 
 .display-flex {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+}
+.width-height-max {
+    width: 100%;
+    height: 100%;
 }
 </style>

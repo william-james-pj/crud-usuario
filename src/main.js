@@ -8,11 +8,19 @@ import {
     faUsersCog,
     faUserPlus,
     faUserMinus,
-    faUserEdit
+    faUserEdit,
+    faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faHome, faUsersCog, faUserPlus, faUserMinus, faUserEdit);
+library.add(
+    faHome,
+    faUsersCog,
+    faUserPlus,
+    faUserMinus,
+    faUserEdit,
+    faSignOutAlt
+);
 
 /* eslint-disable no-new */
 createApp(App)
