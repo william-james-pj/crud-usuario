@@ -16,6 +16,7 @@
                 class="table-icon-edit"
                 icon="user-edit"
                 size="lg"
+                @click="$emit('openEdit')"
             />
             <font-awesome-icon
                 v-if="iconsProps"
@@ -23,6 +24,7 @@
                 class="table-icon-delete"
                 icon="user-minus"
                 size="lg"
+                @click="$emit('openDelete')"
             />
         </div>
     </div>

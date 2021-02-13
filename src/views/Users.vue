@@ -2,7 +2,11 @@
     <div id="users-container">
         <p id="users-title">Users</p>
         <div id="users-buttons-container" class="display-flex">
-            <div id="users-button-add" class="display-flex">
+            <div
+                id="users-button-add"
+                class="display-flex"
+                @click="modalAddClick()"
+            >
                 <font-awesome-icon
                     id="users-button-icon"
                     icon="user-plus"
@@ -35,15 +39,23 @@
                         :emailProps="date.email"
                         :roleProps="date.role"
                         :iconsProps="true"
+                        @openEdit="modalEditClick()"
+                        @openDelete="modalDeleteClick()"
                     />
                 </div>
             </div>
         </div>
+        <ModalAdd v-if="!modalAddClose" @close="modalAddClick()" />
+        <ModalEdit v-if="!modalEditClose" @close="modalEditClick()" />
+        <ModalDelete v-if="!modalDeleteClose" @close="modalDeleteClick()" />
     </div>
 </template>
 
 <script>
 import TableColum from "../components/TableColum";
+import ModalAdd from "../components/ModalAdd";
+import ModalEdit from "../components/ModalEdit";
+import ModalDelete from "../components/ModalDelete";
 
 const teste = [
     {
@@ -60,12 +72,31 @@ const teste = [
 
 export default {
     name: "Users",
+    data() {
+        return {
+            modalAddClose: true,
+            modalEditClose: true,
+            modalDeleteClose: true
+        };
+    },
     components: {
-        TableColum
+        TableColum,
+        ModalAdd,
+        ModalEdit,
+        ModalDelete
     },
     methods: {
         searchDates: function() {
             return teste;
+        },
+        modalAddClick: function() {
+            this.modalAddClose = !this.modalAddClose;
+        },
+        modalEditClick: function() {
+            this.modalEditClose = !this.modalEditClose;
+        },
+        modalDeleteClick: function() {
+            this.modalDeleteClose = !this.modalDeleteClose;
         }
     }
 };
