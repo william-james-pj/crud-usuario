@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #layout-container {
     width: 100vw;
     height: 100vh;
