@@ -9,54 +9,84 @@
         </router-link>
     </div>
     <div class="form-body">
-        <label class="label" for="input-name">
+        <label class="label" for="input-signup-name">
             Name
         </label>
         <div class="container-input">
             <input
                 class="input"
                 type="text"
-                name="input-name"
+                name="input-signup-name"
                 placeholder="Name"
+                v-model="nameSignUpInput"
             />
         </div>
-        <label class="label" for="input-email">
+        <label class="label" for="input-signup-email">
             Email
         </label>
         <div class="container-input">
             <input
                 class="input"
                 type="email"
-                name="input-email"
+                name="input-signup-email"
                 placeholder="Email"
+                v-model="emailSignUpInput"
             />
         </div>
-        <label class="label" for="input-password">
+        <label class="label" for="input-signup-password">
             Password
         </label>
         <div class="container-input">
             <input
                 class="input"
                 type="password"
-                name="input-password"
+                name="input-signup-password"
                 placeholder="Password"
+                v-model="passwordSignUpInput"
             />
+        </div>
+        <div v-if="mensSignUpError !== ''" class="error-container display-flex">
+            <p>{{ mensSignUpError }}</p>
         </div>
     </div>
     <div class="form-footer">
-        <div class="button display-flex">
+        <div class="button display-flex" @click="createUser()">
             <p>Sign Up</p>
         </div>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "SignUp",
     data() {
         return {
-            typeProps: "Login"
+            nameSignUpInput: "",
+            emailSignUpInput: "",
+            passwordSignUpInput: "",
+            mensSignUpError: ""
         };
+    },
+    methods: {
+        createUser: function() {
+            axios
+                .post("http://localhost:9000/user", {
+                    name: this.nameSignUpInput,
+                    email: this.emailSignUpInput,
+                    password: this.passwordSignUpInput
+                })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err.response.data.res);
+                    if (typeof err.response.data.res === "object")
+                        this.mensSignUpError = err.response.data.res[0];
+                    else this.mensSignUpError = err.response.data.res;
+                });
+        }
     }
 };
 </script>
