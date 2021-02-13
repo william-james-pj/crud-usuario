@@ -34,7 +34,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #bar-left-container {
     display: grid;
     grid-template-columns: 1fr;

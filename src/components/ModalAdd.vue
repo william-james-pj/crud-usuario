@@ -17,6 +17,7 @@
                                     type="text"
                                     name="modal-input-name"
                                     placeholder="Name"
+                                    v-model="nameInput"
                                 />
                             </div>
                             <label class="modal-label" for="modal-input-email">
@@ -28,6 +29,7 @@
                                     type="email"
                                     name="modal-input-email"
                                     placeholder="Email"
+                                    v-model="emailInput"
                                 />
                             </div>
                             <div class="display-flex">
@@ -44,6 +46,7 @@
                                             type="password"
                                             name="modal-input-password"
                                             placeholder="Password"
+                                            v-model="passwordInput"
                                         />
                                     </div>
                                 </div>
@@ -61,15 +64,23 @@
                                             type="number"
                                             name="modal-input-role"
                                             placeholder="Role"
+                                            v-model="roleInput"
                                         />
                                     </div>
                                 </div>
+                            </div>
+                            <div
+                                v-if="mensError !== ''"
+                                class="modal-error-container display-flex"
+                            >
+                                <p>{{ mensError }}</p>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer width-height-max display-flex">
                         <div
                             class="modal-button modal-button-save display-flex"
+                            @click="addUsers()"
                         >
                             <p>Save</p>
                         </div>
@@ -87,8 +98,40 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-    name: "ModalAdd"
+    name: "ModalAdd",
+    data() {
+        return {
+            nameInput: "",
+            emailInput: "",
+            passwordInput: "",
+            roleInput: 0,
+            mensError: ""
+        };
+    },
+    methods: {
+        addUsers: function() {
+            axios
+                .post("http://localhost:9000/user", {
+                    name: this.nameInput,
+                    email: this.emailInput,
+                    password: this.passwordInput,
+                    role: this.roleInput
+                })
+                .then(res => {
+                    console.log(res);
+                    this.$emit("close");
+                })
+                .catch(err => {
+                    let teste = err.response.data.res;
+                    if (typeof teste === "object")
+                        this.mensError = err.response.data.res[0];
+                    else this.mensError = err.response.data.res;
+                });
+        }
+    }
 };
 </script>
 

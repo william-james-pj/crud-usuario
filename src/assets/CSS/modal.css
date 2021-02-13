@@ -77,6 +77,10 @@
     background: rgba(230, 230, 230, 255);
     font-size: 18px;
 }
+.modal-error-container{
+    justify-content: center;
+    color: red;
+}
 
 .modal-footer {
     grid-area: modal-footer;
