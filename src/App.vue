@@ -1,14 +1,14 @@
 <template>
-    <Layout />
+    <LayoutLoginSignUp />
 </template>
 
 <script>
-import Layout from "./views/Layout";
+import LayoutLoginSignUp from "./views/LayoutLoginSignUp";
 
 export default {
     name: "App",
     components: {
-        Layout
+        LayoutLoginSignUp
     }
 };
 </script>
