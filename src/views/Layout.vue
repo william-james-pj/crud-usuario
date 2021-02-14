@@ -3,10 +3,10 @@
         <div class="context-layout">
             <router-view></router-view>
         </div>
-        <div class="bar-left-layout">
+        <div class="bar-left-layout" v-if="test()">
             <BarLeft />
         </div>
-        <div class="bar-top-layout">
+        <div class="bar-top-layout" v-if="test()">
             <BarTop />
         </div>
     </div>
@@ -20,6 +20,15 @@ export default {
     components: {
         BarLeft,
         BarTop
+    },
+    methods: {
+        test: function() {
+            console.log(this.$route.name);
+            if (this.$route.name == "SignUp" || this.$route.name == "Login") {
+                return false;
+            }
+            return true;
+        }
     }
 };
 </script>

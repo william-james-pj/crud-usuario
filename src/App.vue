@@ -1,14 +1,24 @@
 <template>
-    <LayoutLoginSignUp />
+    <Layout />
 </template>
 
 <script>
-import LayoutLoginSignUp from "./views/LayoutLoginSignUp";
+import Layout from "./views/Layout";
 
 export default {
     name: "App",
     components: {
-        LayoutLoginSignUp
+        Layout
+    },
+    date() {
+        return {
+            loginActive: true
+        };
+    },
+    methods: {
+        loginAccept: function() {
+            this.loginActive = !this.loginActive;
+        }
     }
 };
 </script>
