@@ -17,7 +17,7 @@
             </router-link>
         </div>
         <div class="barLeft-button-logoff width-height-max display-flex">
-            <router-link to="/">
+            <router-link to="/login" @click="logoff()">
                 <font-awesome-icon
                     class="barleft-icons barleft-icon-logoff"
                     icon="sign-out-alt"
@@ -30,7 +30,12 @@
 
 <script>
 export default {
-    name: "BarLeft"
+    name: "BarLeft",
+    methods: {
+        logoff: function() {
+            localStorage.removeItem("token");
+        }
+    }
 };
 </script>
 
