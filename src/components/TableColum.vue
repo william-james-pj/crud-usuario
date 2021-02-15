@@ -36,7 +36,7 @@ export default {
     props: {
         nameProps: String,
         emailProps: String,
-        roleProps: String,
+        roleProps: Number,
         iconsProps: Boolean
     }
 };

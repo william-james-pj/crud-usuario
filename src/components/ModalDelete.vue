@@ -18,6 +18,7 @@
                     <div class="modal-footer width-height-max display-flex">
                         <div
                             class="modal-button modal-button-delete display-flex"
+                            @click="$emit('delete')"
                         >
                             <p>Delete</p>
                         </div>

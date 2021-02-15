@@ -120,8 +120,8 @@ export default {
                     password: this.passwordInput,
                     role: this.roleInput
                 })
-                .then(res => {
-                    console.log(res);
+                .then(() => {
+                    this.$emit("loader");
                     this.$emit("close");
                 })
                 .catch(err => {

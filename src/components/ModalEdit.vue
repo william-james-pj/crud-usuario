@@ -17,6 +17,7 @@
                                     type="text"
                                     name="modal-input-name"
                                     placeholder="Name"
+                                    v-model="nameInput"
                                 />
                             </div>
                             <label class="modal-label" for="modal-input-email">
@@ -28,6 +29,7 @@
                                     type="email"
                                     name="modal-input-email"
                                     placeholder="Email"
+                                    v-model="emailInput"
                                 />
                             </div>
                             <div class=" modal-edit-container-input-role">
@@ -43,6 +45,7 @@
                                         type="number"
                                         name="modal-input-role"
                                         placeholder="Role"
+                                        v-model="roleInput"
                                     />
                                 </div>
                             </div>
@@ -51,6 +54,7 @@
                     <div class="modal-footer width-height-max display-flex">
                         <div
                             class="modal-button modal-button-save display-flex"
+                            @click="editUser()"
                         >
                             <p>Update</p>
                         </div>
@@ -68,8 +72,57 @@
 </template>
 
 <script>
+import axios from "axios";
+import ReqHeaders from "../constant/ReqHeaders";
+
 export default {
-    name: "ModalEdit"
+    name: "ModalEdit",
+    props: {
+        idProps: Number
+    },
+    data() {
+        return {
+            nameInput: "",
+            emailInput: "",
+            roleInput: ""
+        };
+    },
+    methods: {
+        editUser: function() {
+            axios
+                .put(
+                    "http://localhost:9000/user ",
+                    {
+                        name: this.nameInput,
+                        email: this.emailInput,
+                        role: this.roleInput,
+                        id: this.idProps
+                    },
+                    ReqHeaders
+                )
+                .then(() => {
+                    this.$emit("loader");
+                    this.$emit("close");
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    this.$emit("close");
+                });
+        }
+    },
+    mounted() {
+        axios
+            .get("http://localhost:9000/user/ " + this.idProps, ReqHeaders)
+            .then(res => {
+                this.nameInput = res.data.res.name;
+                this.emailInput = res.data.res.email;
+                this.roleInput = res.data.res.role;
+            })
+            .catch(error => {
+                console.log(error);
+                this.$emit("close");
+            });
+    }
 };
 </script>
 
