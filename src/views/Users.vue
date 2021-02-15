@@ -66,7 +66,6 @@
 
 <script>
 import axios from "axios";
-import ReqHeaders from "../constant/ReqHeaders";
 
 import TableColum from "../components/TableColum";
 import ModalAdd from "../components/ModalAdd";
@@ -104,10 +103,15 @@ export default {
             this.modalDeleteClose = !this.modalDeleteClose;
         },
         deleteUser: function() {
+            let reqHeader = {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            };
             axios
                 .delete(
                     "http://localhost:9000/user/" + this.deleteUserId,
-                    ReqHeaders
+                    reqHeader
                 )
                 .then(res => {
                     this.response = res.data.res;
@@ -120,8 +124,13 @@ export default {
                 });
         },
         loaderUser: function() {
+            let reqHeader = {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            };
             axios
-                .get("http://localhost:9000/user", ReqHeaders)
+                .get("http://localhost:9000/user", reqHeader)
                 .then(res => {
                     this.response = res.data.res;
                 })

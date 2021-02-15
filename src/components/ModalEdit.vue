@@ -73,7 +73,6 @@
 
 <script>
 import axios from "axios";
-import ReqHeaders from "../constant/ReqHeaders";
 
 export default {
     name: "ModalEdit",
@@ -89,6 +88,11 @@ export default {
     },
     methods: {
         editUser: function() {
+            let reqHeader = {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            };
             axios
                 .put(
                     "http://localhost:9000/user ",
@@ -98,7 +102,7 @@ export default {
                         role: this.roleInput,
                         id: this.idProps
                     },
-                    ReqHeaders
+                    reqHeader
                 )
                 .then(() => {
                     this.$emit("loader");
@@ -111,8 +115,13 @@ export default {
         }
     },
     mounted() {
+        let reqHeader = {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        };
         axios
-            .get("http://localhost:9000/user/ " + this.idProps, ReqHeaders)
+            .get("http://localhost:9000/user/ " + this.idProps, reqHeader)
             .then(res => {
                 this.nameInput = res.data.res.name;
                 this.emailInput = res.data.res.email;

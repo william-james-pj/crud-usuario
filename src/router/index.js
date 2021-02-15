@@ -8,15 +8,14 @@ import Users from "../views/Users.vue";
 import NotPermission from "../views/NotPermission.vue";
 
 function AdminAuth(to, from, next) {
+    let reqHeader = {
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    };
     if (localStorage.getItem("token") !== undefined) {
-        let req = {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("token")
-            }
-        };
-
         axios
-            .post("http://localhost:9000/validate", {}, req)
+            .post("http://localhost:9000/validate", {}, reqHeader)
             .then(() => {
                 // console.log(res);
                 next();
@@ -49,8 +48,22 @@ const routes = [
         name: "Home",
         component: Home,
         beforeEnter: (to, from, next) => {
+            let reqHeader = {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            };
             if (localStorage.getItem("token") !== undefined) {
-                next();
+                axios
+                    .post("http://localhost:9000/validatetoken", {}, reqHeader)
+                    .then(() => {
+                        // console.log(res);
+                        next();
+                    })
+                    .catch(err => {
+                        console.log(err.response);
+                        next("/login");
+                    });
             } else next("/login");
         }
     },
