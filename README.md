@@ -31,6 +31,8 @@
 
 ## Sobre o projeto
 
+![crud-screenshot](https://github.com/william-james-pj/crud-usuario/blob/master/imgReader/img.PNG)
+
 <br />
 Esse repositório é um CRUD simples para controle de usuários, utilizando um API REST.
 
