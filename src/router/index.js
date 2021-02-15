@@ -1,9 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
+import axios from "axios";
 
 import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import Home from "../views/Home.vue";
 import Users from "../views/Users.vue";
+import NotPermission from "../views/NotPermission.vue";
+
+function AdminAuth(to, from, next) {
+    if (localStorage.getItem("token") !== undefined) {
+        let req = {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        };
+
+        axios
+            .post("http://localhost:9000/validate", {}, req)
+            .then(() => {
+                // console.log(res);
+                next();
+            })
+            .catch(err => {
+                console.log(err.response);
+                next("/notpermission");
+            });
+    } else next("/login");
+}
 
 const routes = [
     {
@@ -17,14 +40,25 @@ const routes = [
         component: SignUp
     },
     {
+        path: "/notpermission",
+        name: "NotPermission",
+        component: NotPermission
+    },
+    {
         path: "/",
         name: "Home",
-        component: Home
+        component: Home,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem("token") !== undefined) {
+                next();
+            } else next("/login");
+        }
     },
     {
         path: "/users",
         name: "Users",
-        component: Users
+        component: Users,
+        beforeEnter: AdminAuth
     }
 ];
 

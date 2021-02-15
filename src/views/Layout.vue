@@ -23,7 +23,6 @@ export default {
     },
     methods: {
         test: function() {
-            console.log(this.$route.name);
             if (this.$route.name == "SignUp" || this.$route.name == "Login") {
                 return false;
             }

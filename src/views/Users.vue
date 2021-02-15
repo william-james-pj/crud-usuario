@@ -33,42 +33,45 @@
                 />
             </div>
             <div id="users-table-columns">
-                <div v-for="date in searchDates()" :key="date.email">
+                <div v-for="date in response" :key="date.email">
                     <TableColum
                         :nameProps="date.name"
                         :emailProps="date.email"
                         :roleProps="date.role"
                         :iconsProps="true"
-                        @openEdit="modalEditClick()"
-                        @openDelete="modalDeleteClick()"
+                        @openEdit="modalEditClick(date.id)"
+                        @openDelete="modalDeleteClick(date.id)"
                     />
                 </div>
             </div>
         </div>
-        <ModalAdd v-if="!modalAddClose" @close="modalAddClick()" />
-        <ModalEdit v-if="!modalEditClose" @close="modalEditClick()" />
-        <ModalDelete v-if="!modalDeleteClose" @close="modalDeleteClick()" />
+        <ModalAdd
+            v-if="!modalAddClose"
+            @close="modalAddClick()"
+            @loader="loaderUser()"
+        />
+        <ModalEdit
+            v-if="!modalEditClose"
+            :idProps="editUserId"
+            @close="modalEditClick()"
+            @loader="loaderUser()"
+        />
+        <ModalDelete
+            v-if="!modalDeleteClose"
+            @close="modalDeleteClick()"
+            @delete="deleteUser()"
+        />
     </div>
 </template>
 
 <script>
+import axios from "axios";
+import ReqHeaders from "../constant/ReqHeaders";
+
 import TableColum from "../components/TableColum";
 import ModalAdd from "../components/ModalAdd";
 import ModalEdit from "../components/ModalEdit";
 import ModalDelete from "../components/ModalDelete";
-
-const teste = [
-    {
-        name: "William James",
-        email: "williamjunior258@gmail.com",
-        role: "0"
-    },
-    {
-        name: "William James",
-        email: "williamjunior258@gmail.com",
-        role: "0"
-    }
-];
 
 export default {
     name: "Users",
@@ -76,7 +79,10 @@ export default {
         return {
             modalAddClose: true,
             modalEditClose: true,
-            modalDeleteClose: true
+            modalDeleteClose: true,
+            deleteUserId: -1,
+            editUserId: -1,
+            response: []
         };
     },
     components: {
@@ -86,18 +92,46 @@ export default {
         ModalDelete
     },
     methods: {
-        searchDates: function() {
-            return teste;
-        },
         modalAddClick: function() {
             this.modalAddClose = !this.modalAddClose;
         },
-        modalEditClick: function() {
+        modalEditClick: function(id) {
+            this.editUserId = id;
             this.modalEditClose = !this.modalEditClose;
         },
-        modalDeleteClick: function() {
+        modalDeleteClick: function(id) {
+            this.deleteUserId = id;
             this.modalDeleteClose = !this.modalDeleteClose;
+        },
+        deleteUser: function() {
+            axios
+                .delete(
+                    "http://localhost:9000/user/" + this.deleteUserId,
+                    ReqHeaders
+                )
+                .then(res => {
+                    this.response = res.data.res;
+                    this.loaderUser();
+                    this.modalDeleteClose = !this.modalDeleteClose;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.modalDeleteClose = !this.modalDeleteClose;
+                });
+        },
+        loaderUser: function() {
+            axios
+                .get("http://localhost:9000/user", ReqHeaders)
+                .then(res => {
+                    this.response = res.data.res;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         }
+    },
+    mounted() {
+        this.loaderUser();
     }
 };
 </script>
